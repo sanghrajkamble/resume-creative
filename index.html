@@ -216,6 +216,21 @@ textarea{min-height:70px;resize:vertical}
 #v-guides h3{font-size:17px;margin:16px 0 6px}#v-guides section{border-bottom:1px solid var(--bd);padding:30px 0 22px}#v-guides section:last-of-type{border-bottom:0}
 #v-guides blockquote{margin:8px 0 14px;padding:10px 14px;border-left:4px solid var(--ol);background:var(--card);color:var(--tx);max-width:72ch}
 #rg a.c:hover{border-color:var(--pl)}
+.vpw{max-width:760px;margin:18px auto 0;border-radius:14px;overflow:hidden;border:1px solid var(--bd);background:var(--card);box-shadow:0 14px 40px rgba(0,0,0,.25)}
+.vpf{aspect-ratio:16/9;background:linear-gradient(135deg,#3d2457,#6a3d8f);color:#fff;position:relative;overflow:hidden}
+.vps{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px;text-align:center;opacity:0;transform:scale(.96);transition:opacity .6s,transform .6s}
+.vps.on{opacity:1;transform:none}
+.vps h3{font:700 clamp(20px,4vw,34px) Georgia,serif;margin:0}
+.vps p{margin:0;font-size:clamp(13px,2vw,17px);opacity:.9}
+.vpcards{display:flex;gap:14px}
+.vpcard{width:clamp(70px,16vw,120px);aspect-ratio:3/4;background:#fff;border-radius:8px;padding:10px;transform:translateY(40px);opacity:0;transition:transform .6s,opacity .6s,box-shadow .3s}
+.vps.on .vpcard{transform:none;opacity:1}.vps.on .vpcard:nth-child(2){transition-delay:.25s}.vps.on .vpcard:nth-child(3){transition-delay:.5s}
+.vpcard.hi{box-shadow:0 0 0 4px #a3b84a;transform:translateY(-6px)!important}
+.vpcard i{display:block;height:8px;width:55%;background:#6a3d8f;border-radius:2px;margin-bottom:8px}.vpcard s{display:block;height:5px;background:#ddd;margin:5px 0;border-radius:2px;text-decoration:none}
+.vpt{background:rgba(255,255,255,.14);border-radius:10px;padding:12px 16px;max-width:92%;font-size:clamp(12px,2vw,16px);min-height:22px}.vpt.out{background:#fff;color:#2a2a1e}
+.vpck{display:flex;flex-direction:column;gap:10px;align-items:flex-start;font-size:clamp(13px,2.2vw,19px)}.vpck span{opacity:0;transform:translateX(-14px);transition:.4s}.vpck span.on{opacity:1;transform:none}
+.vpp{height:4px;background:var(--bd)}.vpp i{display:block;height:100%;width:0;background:var(--ol);transition:width .4s linear}
+.vpc{text-align:center;margin-top:12px}
 .dmctl{text-align:center;margin-top:12px}
 </style>
 </head>
@@ -262,7 +277,7 @@ textarea{min-height:70px;resize:vertical}
 
 <section class="alt" id="why"><div class="w"><h2>Why choose our resume builder</h2><p class="lead">Built to be simple, fast and private.</p><div class="g" id="wg"></div></div></section>
 
-<section id="reviews"><div class="w"><h2>What users say</h2><div class="empty">No reviews yet. We only show feedback and ratings from real users, so this space stays empty until they arrive. Used the builder? Tell us through the Contact link below.</div></div></section>
+<section id="video"><div class="w"><h2>See Resume Creative in action</h2><div class="vpw"><div class="vpf" id="vpf"></div><div class="vpp"><i id="vpb"></i></div></div><div class="vpc"><button class="btn o" id="vpbtn" type="button" style="padding:8px 16px;font-size:14px">&#10074;&#10074; Pause</button> <a class="btn" href="#builder" style="padding:8px 18px;font-size:14px">Start building</a></div></div></section>
 
 <section class="alt" id="faq"><div class="w"><h2>Frequently asked questions</h2><p class="lead">Quick answers before you start.</p>
 <details><summary>Is the resume builder free?</summary><p>Yes. You can build and download your resume at no cost.</p></details>
@@ -799,6 +814,32 @@ loop();
 <script>
 (function(){var a=document.getElementById('atsl');if(!a)return;
 a.addEventListener('click',function(){setTimeout(function(){var b=document.querySelector('.tcs button[data-c="ATS-Friendly"]');if(b)b.click()},80)})})();
+</script>
+<script>
+(function(){
+var f=document.getElementById('vpf'),bar=document.getElementById('vpb'),btn=document.getElementById('vpbtn');if(!f)return;
+f.innerHTML='<div class="vps" id="vs1"><h3>Create a professional resume in minutes</h3><p>Templates, AI writing help and PDF download</p></div>'
++'<div class="vps" id="vs2"><h3>Pick a professional template</h3><div class="vpcards"><div class="vpcard"><i></i><s></s><s></s><s></s><s></s></div><div class="vpcard"><i></i><s></s><s></s><s></s><s></s></div><div class="vpcard"><i></i><s></s><s></s><s></s><s></s></div></div></div>'
++'<div class="vps" id="vs3"><h3>Let AI polish your words</h3><div class="vpt" id="vpa"></div><div class="vpt out" id="vpo"></div></div>'
++'<div class="vps" id="vs4"><h3>ATS-friendly layouts</h3><div class="vpck"><span>&#10003; Clean single-column layout</span><span>&#10003; Easy-to-read fonts</span><span>&#10003; Clear section headings</span></div></div>'
++'<div class="vps" id="vs5"><h3>Download as PDF and apply with confidence</h3><p>Start building yours now</p></div>';
+var run=!(window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches);
+function sync(){btn.innerHTML=run?'&#10074;&#10074; Pause':'&#9654; Play'}sync();
+btn.onclick=function(){run=!run;sync()};
+function sleep(ms){return new Promise(function(r){var e=0;(function t(){if(run)e+=50;if(e>=ms)r();else setTimeout(t,50)})()})}
+async function type(id,txt,sp){var el=document.getElementById(id);el.textContent='';for(var i=0;i<txt.length;i++){el.textContent+=txt.charAt(i);await sleep(sp)}}
+function show(n){for(var i=1;i<=5;i++)document.getElementById('vs'+i).className='vps'+(i==n?' on':'');bar.style.width=(n*20)+'%'}
+function reset(){var c=f.querySelectorAll('.vpcard'),k=f.querySelectorAll('.vpck span'),i;for(i=0;i<c.length;i++)c[i].className='vpcard';for(i=0;i<k.length;i++)k[i].className='';document.getElementById('vpa').textContent='';document.getElementById('vpo').textContent=''}
+show(1);
+async function loop(){while(true){
+reset();show(1);await sleep(3200);
+show(2);var c=f.querySelectorAll('.vpcard');await sleep(1800);c[1].className='vpcard hi';await sleep(900);c[1].className='vpcard';c[2].className='vpcard hi';await sleep(1500);
+show(3);await sleep(700);await type('vpa','worked in sales, talked to customers',35);await sleep(700);await type('vpo','Managed customer relationships and supported team sales goals.',25);await sleep(2200);
+show(4);var k=f.querySelectorAll('.vpck span');await sleep(700);for(var i=0;i<k.length;i++){k[i].className='on';await sleep(800)}await sleep(1500);
+show(5);await sleep(3400);
+}}
+loop();
+})();
 </script>
 </body>
 </html>
